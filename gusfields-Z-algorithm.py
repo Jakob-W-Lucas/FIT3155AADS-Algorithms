@@ -2,7 +2,7 @@
 
 class ZAlgorithm:
     
-    def __init__(self, txt: str, pat: str):
+    def __init__(self, txt: str, pat: str) -> None:
         self.txt = txt
         self.pat = pat
         self.string = pat + "$" + txt
@@ -11,16 +11,20 @@ class ZAlgorithm:
         
         self.l = -1
         self.r = -1
-         
-    def solve(self):
-        
+
+    def get_matches(self) -> list:
+        matches = []
         for i in range(1, len(self.string)):
+            
             self.get_z_box(i)
-            n = i + 1
-            print(f"Z{n} = {self.z_array[i][0]}, || \
-                Z{n}-box = [{self.z_array[i][3][0]}..{self.z_array[i][3][1]}] ||\
-                    (l{n}, r{n}) = ({self.z_array[i][1]}, {self.z_array[i][2]})")
-        pass
+            
+            if self.z_array[i][0] == len(self.pat):
+                matches.append(i - len(self.pat) - 1)
+        
+        if len(matches) == 0:
+            print(f"There were no matches found.")
+            
+        return matches
     
     def get_z_box(self, k: int):
         
@@ -70,12 +74,17 @@ class ZAlgorithm:
     # Returns the location in the string array where the matching fails
     def compare(self, k: int) -> int:
         
+        q = k
         # Comparing to str[1...q - k]
-        for q in range(len(self.string) - k):
+        for n in range(len(self.string) - k):
             # Compare to find str[k...q-1]
-            if self.string[q] != self.string[k + q]: 
-               return k + q
+            if self.string[n] == self.string[k + n]: 
+                q += 1
+            else:
+                break
+        return q
     
 if __name__ == "__main__":
-    z = ZAlgorithm("aabcaabxaay", "aab")
-    z.solve()
+    
+    z = ZAlgorithm("aabcaxaabaabcy", "aab")
+    print(f"The pattern was found in the string at i = {z.get_matches()}")
