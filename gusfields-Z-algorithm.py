@@ -40,7 +40,7 @@ class ZAlgorithm:
                 
             #print("Case 2a")
             q = self.z_array[k - self.l][0]
-            self.z_array[k] = [q, self.l, self.r, [k, k + q]]
+            self.z_array[k] = [q, self.l, self.r, [k, k + q - 1]]
             
         elif k - self.l > 0 and self.r + 1 != len(self.string) and \
             self.z_array[k - self.l + 1][0] >= self.r - k + 1 and k <= self.r:
