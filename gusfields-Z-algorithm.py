@@ -2,7 +2,7 @@ class ZAlgorithm:
     def __init__(self, txt: str, pat: str) -> None:
         self.txt = txt
         self.pat = pat
-        self.string = pat + "$" + txt
+        self.string = txt if len(pat) == 0 else pat + "$" + txt
         self.z_array = [0] * len(self.string)
 
     def compute_z_array(self):
@@ -63,9 +63,10 @@ class ZAlgorithm:
         for i in range(len(self.pat) + 1, len(self.string)):
             if self.z_array[i] == len(self.pat):
                 matches.append(i - len(self.pat) - 1)
+            if (len(self.pat) == 0): print(self.z_array[i])
         return matches
 
 
 if __name__ == "__main__":
-    z = ZAlgorithm("aabcaxaabaabcy", "aab")
+    z = ZAlgorithm("aabxabaabbabbbbbaaabb", "aab")
     print(f"The pattern was found in the string at indices: {z.get_matches()}")
